@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Grpc.Core;
+using Google.Protobuf.WellKnownTypes;
 using RM.Proto;
 
 namespace RMAgent.Services;

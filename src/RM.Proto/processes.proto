@@ -1,10 +1,12 @@
 syntax = "proto3";
 option csharp_namespace = "RM.Proto";
 
+import "google/protobuf/empty.proto";
+
 package rm;
 
 service ProcessesService {
-  rpc List (Empty) returns (ProcessList);
+  rpc List (google.protobuf.Empty) returns (ProcessList);
   rpc Start (StartRequest) returns (StartReply);
   rpc Kill (Pid) returns (OpStatus);
   rpc Get  (Pid) returns (ProcessInfo);
