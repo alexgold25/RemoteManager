@@ -5,13 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" />
-    <PackageReference Include="Grpc.Tools" PrivateAssets="All" />
+    <PackageReference Include="Google.Protobuf" Version="3.26.1" />
+    <PackageReference Include="Grpc.Tools" Version="2.57.0" PrivateAssets="All" />
+    <PackageReference Include="Grpc.Core.Api" Version="2.57.0" />
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include="system.proto" GrpcServices="Both" />
     <Protobuf Include="files.proto" GrpcServices="Both" />
     <Protobuf Include="processes.proto" GrpcServices="Both" />
     <Protobuf Include="discovery.proto" GrpcServices="Both" />
+    <Protobuf Include="status.proto" GrpcServices="Both" />
   </ItemGroup>
 </Project>

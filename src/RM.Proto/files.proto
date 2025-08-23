@@ -1,5 +1,6 @@
 syntax = "proto3";
 option csharp_namespace = "RM.Proto";
+import "status.proto";
 
 package rm;
 
@@ -38,4 +39,3 @@ message FileChunk {
   string transfer_id = 4;
 }
 
-message OpStatus { bool ok = 1; string error = 2; }
