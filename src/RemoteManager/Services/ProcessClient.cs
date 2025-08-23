@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Grpc.Net.Client;
+using Google.Protobuf.WellKnownTypes;
 using RM.Proto;
 
 namespace RemoteManager.Services;
