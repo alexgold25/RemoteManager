@@ -1,9 +1,12 @@
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RemoteManager.Services;
 using RemoteManager.ViewModels;
 using RemoteManager.Views;
+using Serilog;
 
 namespace RemoteManager;
 
@@ -14,14 +17,23 @@ public partial class App : Application
     public App()
     {
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-            .ConfigureServices(services =>
+            .ConfigureAppConfiguration((ctx, cfg) =>
             {
+                var env = ctx.HostingEnvironment;
+                cfg.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                   .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                   .AddEnvironmentVariables();
+            })
+            .UseSerilog((ctx, cfg) => cfg.ReadFrom.Configuration(ctx.Configuration))
+            .ConfigureServices((ctx, services) =>
+            {
+                var endpoint = ctx.Configuration.GetValue<string>("Client:DefaultAgentEndpoint")!;
                 services.AddSingleton<IDiscoveryService, DiscoveryService>();
                 services.AddSingleton<IAgentRegistry, AgentRegistry>();
                 services.AddSingleton<IGrpcConnectionFactory, GrpcConnectionFactory>();
-                services.AddSingleton<ISystemClient>(sp => new SystemClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create("https://localhost:8443")));
-                services.AddSingleton<IFileClient>(sp => new FileClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create("https://localhost:8443")));
-                services.AddSingleton<IProcessClient>(sp => new ProcessClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create("https://localhost:8443")));
+                services.AddSingleton<ISystemClient>(sp => new SystemClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
+                services.AddSingleton<IFileClient>(sp => new FileClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
+                services.AddSingleton<IProcessClient>(sp => new ProcessClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
                 services.AddSingleton<ShellViewModel>();
                 services.AddSingleton<AgentListViewModel>();
                 services.AddSingleton<CommanderViewModel>();
@@ -29,6 +41,13 @@ public partial class App : Application
             })
             .Build();
         Host.Start();
+
+        var cfg = Host.Services.GetRequiredService<IConfiguration>();
+        var logger = Host.Services.GetRequiredService<ILogger<App>>();
+        if (!cfg.GetValue<bool>("Server:Enabled"))
+            logger.LogInformation("Server startup skipped (dev)");
+        if (!cfg.GetValue<bool>("Discovery:Enabled") || !cfg.GetValue<bool>("Discovery:ReceiveEnabled"))
+            logger.LogInformation("Discovery receive disabled (dev)");
     }
 
     protected override void OnStartup(StartupEventArgs e)
