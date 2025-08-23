@@ -1,0 +1,33 @@
+syntax = "proto3";
+option csharp_namespace = "RM.Proto";
+
+package rm;
+
+service ProcessesService {
+  rpc List (Empty) returns (ProcessList);
+  rpc Start (StartRequest) returns (StartReply);
+  rpc Kill (Pid) returns (OpStatus);
+  rpc Get  (Pid) returns (ProcessInfo);
+}
+
+message Pid { int32 pid = 1; }
+
+message ProcessInfo {
+  int32 pid = 1;
+  string name = 2;
+  string user = 3;
+  double cpu = 4;
+  int64 ram_bytes = 5;
+}
+
+message ProcessList { repeated ProcessInfo items = 1; }
+
+message StartRequest {
+  string path = 1;
+  string args = 2;
+  string wd = 3;
+  map<string,string> env = 4;
+}
+message StartReply { bool ok = 1; string error = 2; int32 pid = 3; }
+
+message OpStatus { bool ok = 1; string error = 2; }

@@ -1,0 +1,14 @@
+<UserControl x:Class="RemoteManager.Views.AgentListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Agents}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Device" Binding="{Binding DeviceId}" />
+                <DataGridTextColumn Header="Host" Binding="{Binding Hostname}" />
+                <DataGridTextColumn Header="OS" Binding="{Binding Os}" />
+                <DataGridTextColumn Header="Caps" Binding="{Binding Caps}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

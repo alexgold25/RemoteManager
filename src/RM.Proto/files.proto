@@ -1,0 +1,41 @@
+syntax = "proto3";
+option csharp_namespace = "RM.Proto";
+
+package rm;
+
+service FilesService {
+  rpc ListDir (Path) returns (DirList);
+  rpc Stat (Path) returns (FileStat);
+  rpc Mkdir (Path) returns (OpStatus);
+  rpc Delete (Path) returns (OpStatus);
+  rpc Download (Path) returns (stream FileChunk);
+  rpc Upload (stream FileChunk) returns (OpStatus);
+}
+
+message Path { string path = 1; }
+
+message DirEntry {
+  string name = 1;
+  bool is_dir = 2;
+  int64 size = 3;
+  int64 mtime_unix = 4;
+}
+
+message DirList { repeated DirEntry entries = 1; }
+
+message FileStat {
+  string path = 1;
+  bool is_dir = 2;
+  int64 size = 3;
+  int64 mtime_unix = 4;
+  bool exists = 5;
+}
+
+message FileChunk {
+  string path = 1;
+  bytes data = 2;
+  int64 offset = 3;
+  string transfer_id = 4;
+}
+
+message OpStatus { bool ok = 1; string error = 2; }

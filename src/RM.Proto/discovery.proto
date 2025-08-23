@@ -1,0 +1,32 @@
+syntax = "proto3";
+option csharp_namespace = "RM.Proto";
+
+package rm;
+
+message Discovery {
+  enum MsgType {
+    UNKNOWN = 0;
+    DISCOVER = 1;
+    OFFER = 2;
+    HELLO = 3;
+  }
+
+  MsgType type = 1;
+  string version = 2;
+  string deviceId = 3;
+  string hostname = 4;
+  string os = 5;
+  string arch = 6;
+  Endpoints endpoints = 7;
+  string certFingerprintSha256 = 8;
+  repeated string caps = 9;
+  int64 uptimeSeconds = 10;
+  bytes nonce = 11;
+}
+
+message Endpoints {
+  bool h2 = 1;
+  bool h3 = 2;
+  bool ws = 3;
+  int32 port = 4;
+}
