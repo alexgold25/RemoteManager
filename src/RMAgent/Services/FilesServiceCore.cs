@@ -13,7 +13,7 @@ namespace RMAgent.Services
             DirList list = new DirList();
             try
             {
-                foreach (string entry in Directory.EnumerateFileSystemEntries(request.Path))
+                foreach (string entry in Directory.EnumerateFileSystemEntries(request.Path_))
                 {
                     FileInfo info = new FileInfo(entry);
                     list.Entries.Add(new DirEntry
@@ -34,10 +34,10 @@ namespace RMAgent.Services
 
         public override async Task Download(ProtoPath request, IServerStreamWriter<FileChunk> responseStream, ServerCallContext context)
         {
-            if (File.Exists(request.Path))
+            if (File.Exists(request.Path_))
             {
-                byte[] data = await File.ReadAllBytesAsync(request.Path, context.CancellationToken);
-                await responseStream.WriteAsync(new FileChunk { Path = request.Path, Data = ByteString.CopyFrom(data) });
+                byte[] data = await File.ReadAllBytesAsync(request.Path_, context.CancellationToken);
+                await responseStream.WriteAsync(new FileChunk { Path = request.Path_, Data = ByteString.CopyFrom(data) });
             }
         }
 
