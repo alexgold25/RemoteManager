@@ -29,7 +29,7 @@ namespace RMAgent.Services
         {
             try
             {
-                Process proc = Process.GetProcessById(request.Pid);
+                Process proc = Process.GetProcessById(request.Pid_);
                 proc.Kill();
                 return Task.FromResult(new OpStatus { Ok = true });
             }

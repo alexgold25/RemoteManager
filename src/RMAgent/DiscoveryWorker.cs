@@ -26,7 +26,7 @@ public class DiscoveryWorker : BackgroundService
         var cert = DevCertLoader.Load(_config);
         var psk = _config["Security:DiscoveryPsk"] ?? string.Empty;
         var port = _config.GetValue<int>("Network:Port");
-        var hello = BuildMessage(Discovery.Types.MsgType.HELLO, cert, port);
+        var hello = BuildMessage(Discovery.Types.MsgType.Hello, cert, port);
         var bytes = DiscoverySerializer.Serialize(hello, psk);
         await _socket.SendAsync(bytes, new IPEndPoint(IPAddress.Broadcast, port), stoppingToken);
 
@@ -34,9 +34,9 @@ public class DiscoveryWorker : BackgroundService
         {
             if (!DiscoverySerializer.TryDeserialize(data, psk, out var msg))
                 continue;
-            if (msg.Type == Discovery.Types.MsgType.DISCOVER)
+            if (msg.Type == Discovery.Types.MsgType.Discover)
             {
-                var offer = BuildMessage(Discovery.Types.MsgType.OFFER, cert, port);
+                var offer = BuildMessage(Discovery.Types.MsgType.Offer, cert, port);
                 var offerBytes = DiscoverySerializer.Serialize(offer, psk);
                 await _socket.SendAsync(offerBytes, ep, stoppingToken);
             }

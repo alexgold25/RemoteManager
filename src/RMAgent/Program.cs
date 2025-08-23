@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography.X509Certificates;
 using RM.Shared;
+using RMAgent; // DiscoveryWorker
 using RMAgent.Services;
 using Serilog;
 
@@ -53,9 +55,13 @@ IHost host = Host.CreateDefaultBuilder(args)
         });
         webBuilder.Configure(app =>
         {
-            app.MapGrpcService<SystemServiceImpl>();
-            app.MapGrpcService<FilesServiceCore>();
-            app.MapGrpcService<ProcessesServiceImpl>();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGrpcService<SystemServiceImpl>();
+                endpoints.MapGrpcService<FilesServiceCore>();
+                endpoints.MapGrpcService<ProcessesServiceImpl>();
+            });
         });
     })
     .Build();
