@@ -2,6 +2,7 @@ syntax = "proto3";
 option csharp_namespace = "RM.Proto";
 
 import "google/protobuf/empty.proto";
+import "status.proto";
 
 package rm;
 
@@ -32,4 +33,3 @@ message StartRequest {
 }
 message StartReply { bool ok = 1; string error = 2; int32 pid = 3; }
 
-message OpStatus { bool ok = 1; string error = 2; }
