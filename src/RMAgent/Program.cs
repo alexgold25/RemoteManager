@@ -54,7 +54,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         webBuilder.Configure(app =>
         {
             app.MapGrpcService<SystemServiceImpl>();
-            app.MapGrpcService<FilesServiceImpl>();
+            app.MapGrpcService<FilesServiceCore>();
             app.MapGrpcService<ProcessesServiceImpl>();
         });
     })
