@@ -11,6 +11,9 @@
     <PackageReference Include="Google.Protobuf" Version="3.26.1" />
   </ItemGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\RM.Proto\RM.Proto.csproj" />
   </ItemGroup>
 </Project>
