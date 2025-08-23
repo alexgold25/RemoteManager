@@ -3,31 +3,38 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 
-namespace RM.Shared;
-
-public class DiscoverySocket : IDisposable
+namespace RM.Shared
 {
-    private readonly UdpClient _client;
-
-    public DiscoverySocket(int port)
+    public class DiscoverySocket : IDisposable
     {
-        _client = new UdpClient(port)
-        {
-            EnableBroadcast = true
-        };
-    }
+        private readonly UdpClient _client;
 
-    public Task SendAsync(byte[] data, IPEndPoint endpoint, CancellationToken ct)
-        => _client.SendAsync(data, data.Length, endpoint, ct);
-
-    public async IAsyncEnumerable<(IPEndPoint, byte[])> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
-    {
-        while (!ct.IsCancellationRequested)
+        public DiscoverySocket(int port)
         {
-            UdpReceiveResult result = await _client.ReceiveAsync(ct);
-            yield return (result.RemoteEndPoint, result.Buffer);
+            _client = new UdpClient(port)
+            {
+                EnableBroadcast = true
+            };
+        }
+
+        public async Task SendAsync(byte[] data, IPEndPoint endpoint, CancellationToken ct)
+        {
+            await _client.SendAsync(data, endpoint, ct);
+        }
+
+        public async IAsyncEnumerable<(IPEndPoint, byte[])> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                UdpReceiveResult result = await _client.ReceiveAsync(ct);
+                yield return (result.RemoteEndPoint, result.Buffer);
+            }
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
+            System.GC.SuppressFinalize(this);
         }
     }
-
-    public void Dispose() => _client.Dispose();
 }
