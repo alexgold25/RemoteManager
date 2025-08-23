@@ -1,13 +1,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace RemoteManager.ViewModels;
-
-public class PaneViewModel : ObservableObject
+namespace RemoteManager.ViewModels
 {
-    private string _path = "/";
-    public string Path
+    public class PaneViewModel : ObservableObject
     {
-        get => _path;
-        set => SetProperty(ref _path, value);
+        private string _path = "/";
+
+        public string Path
+        {
+            get => _path;
+            set => SetProperty(ref _path, value);
+        }
     }
 }

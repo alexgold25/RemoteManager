@@ -2,17 +2,20 @@ using System.Threading.Tasks;
 using Grpc.Net.Client;
 using RM.Proto;
 
-namespace RemoteManager.Services;
-
-public class FileClient : IFileClient
+namespace RemoteManager.Services
 {
-    private readonly FilesService.FilesServiceClient _client;
-
-    public FileClient(GrpcChannel channel)
+    public class FileClient : IFileClient
     {
-        _client = new FilesService.FilesServiceClient(channel);
-    }
+        private readonly FilesService.FilesServiceClient _client;
 
-    public Task<DirList> ListDirAsync(string path)
-        => _client.ListDirAsync(new Path { Path_ = path }).ResponseAsync;
+        public FileClient(GrpcChannel channel)
+        {
+            _client = new FilesService.FilesServiceClient(channel);
+        }
+
+        public Task<DirList> ListDirAsync(string path)
+        {
+            return _client.ListDirAsync(new Path { Path_ = path }).ResponseAsync;
+        }
+    }
 }
