@@ -4,8 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RemoteManager.Services;
+using RemoteManager.Services.Navigation;
 using RemoteManager.ViewModels;
-using RemoteManager.Views;
+using RemoteManager.ViewModels.Agents;
 using Serilog;
 
 namespace RemoteManager
@@ -40,10 +41,13 @@ namespace RemoteManager
                     services.AddSingleton<ISystemClient>(sp => new SystemClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
                     services.AddSingleton<IFileClient>(sp => new FileClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
                     services.AddSingleton<IProcessClient>(sp => new ProcessClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
-                    services.AddSingleton<ShellViewModel>();
-                    services.AddSingleton<AgentListViewModel>();
+
+                    services.AddSingleton<INavigationService, NavigationService>();
+                    services.AddSingleton<AgentsViewModel>();
+                    services.AddSingleton<InboxViewModel>();
                     services.AddSingleton<CommanderViewModel>();
-                    services.AddSingleton<MainWindow>();
+                    services.AddSingleton<SettingsViewModel>();
+                    services.AddSingleton<MainWindowViewModel>();
                 })
                 .Build();
             Host.Start();
@@ -58,12 +62,6 @@ namespace RemoteManager
             {
                 logger.LogInformation("Discovery receive disabled (dev)");
             }
-        }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-            Host.Services.GetRequiredService<MainWindow>().Show();
         }
 
         protected override void OnExit(ExitEventArgs e)

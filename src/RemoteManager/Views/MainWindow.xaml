@@ -3,9 +3,93 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:RemoteManager.ViewModels"
         mc:Ignorable="d"
         Title="RemoteManager" Height="450" Width="800">
     <Grid>
-        <ContentPresenter Content="{Binding}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Navigation -->
+        <Border Grid.RowSpan="4" Background="{DynamicResource Brush.Background}" Padding="8">
+            <ItemsControl ItemsSource="{Binding NavItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:NavItemVm}">
+                        <Button Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                CommandParameter="{Binding}"
+                                Style="{DynamicResource GhostButton}"
+                                HorizontalContentAlignment="Stretch" Margin="0,4">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets" Margin="0,0,8,0"/>
+                                <TextBlock Text="{Binding Title}"/>
+                                <Border Style="{DynamicResource Badge.Pending}" Margin="8,0,0,0">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding BadgeCount}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding BadgeCount}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding BadgeCount}">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding BadgeCount}" Foreground="{DynamicResource Brush.Background}"/>
+                                </Border>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!-- Top bar -->
+        <Grid Grid.Column="1" Grid.Row="0" Padding="8" Background="{DynamicResource Brush.Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding CurrentTitle}" FontSize="20" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Margin="8,0" Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Column="2" Content="{DynamicResource Nav.ScanNetwork}" Command="{Binding ScanNetworkCommand}" Style="{DynamicResource PrimaryButton}" Margin="8,0"/>
+        </Grid>
+
+        <!-- Banner -->
+        <Button Grid.Column="1" Grid.Row="1" Background="{DynamicResource Brush.Warning}" Foreground="{DynamicResource Brush.Foreground}"
+                BorderThickness="0" Padding="8" Content="{Binding InboxBannerText}"
+                Command="{Binding NavigateCommand}" CommandParameter="{Binding NavItems[1]}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding InboxCount}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!-- Content -->
+        <ContentControl Grid.Column="1" Grid.Row="2" Content="{Binding CurrentViewModel}"/>
+
+        <!-- Status bar -->
+        <Border Grid.Column="1" Grid.Row="3" Background="{DynamicResource Brush.Background}" Padding="4">
+            <TextBlock Text="{Binding StatusText}"/>
+        </Border>
     </Grid>
 </Window>
