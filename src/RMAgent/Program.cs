@@ -6,12 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RM.Shared;
 using RM.Shared.Security;
 using RMAgent; // DiscoveryWorker
 using RMAgent.Services;
 using Serilog;
 
-var deviceId = DeviceIdentity.EnsureDeviceId(Path.Combine(AppContext.BaseDirectory, "device.id"));
+var deviceId = DeviceIdentity.EnsureDeviceId(System.IO.Path.Combine(AppContext.BaseDirectory, "device.id"));
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((ctx, cfg) =>
