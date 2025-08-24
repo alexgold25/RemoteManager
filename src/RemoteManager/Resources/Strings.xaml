@@ -1,0 +1,63 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Column headers -->
+    <x:String x:Key="Agents.Header.Status">Status</x:String>
+    <x:String x:Key="Agents.Header.Name">Name</x:String>
+    <x:String x:Key="Agents.Header.Host">Host/IP</x:String>
+    <x:String x:Key="Agents.Header.Group">Group/Tags</x:String>
+    <x:String x:Key="Agents.Header.Version">Version</x:String>
+    <x:String x:Key="Agents.Header.Uptime">Uptime</x:String>
+    <x:String x:Key="Agents.Header.Platform">Platform</x:String>
+    <x:String x:Key="Agents.Header.CpuRam">CPU/RAM</x:String>
+    <x:String x:Key="Agents.Header.Ping">Ping</x:String>
+    <x:String x:Key="Agents.Header.LastSeen">Last Seen</x:String>
+    <x:String x:Key="Agents.Header.Fingerprint">Fingerprint</x:String>
+    <x:String x:Key="Agents.Header.Actions">Actions</x:String>
+
+    <!-- Filters -->
+    <x:String x:Key="Agents.Filter.All">All</x:String>
+    <x:String x:Key="Agents.Filter.Online">Online</x:String>
+    <x:String x:Key="Agents.Filter.Offline">Offline</x:String>
+    <x:String x:Key="Agents.Filter.Pending">Pending</x:String>
+    <x:String x:Key="Agents.Filter.Quarantine">Quarantine</x:String>
+
+    <!-- Actions -->
+    <x:String x:Key="Agents.Action.OpenDetails">Open Details</x:String>
+    <x:String x:Key="Agents.Action.Trust">Trust</x:String>
+    <x:String x:Key="Agents.Action.Reject">Reject</x:String>
+    <x:String x:Key="Agents.Action.Files">Files</x:String>
+    <x:String x:Key="Agents.Action.Terminal">Terminal</x:String>
+    <x:String x:Key="Agents.Action.Restart">Restart</x:String>
+
+    <!-- Search -->
+    <x:String x:Key="Agents.Search.Placeholder">Search agents...</x:String>
+    <x:String x:Key="Icon.Search">&#xE721;</x:String>
+
+    <!-- Empty state -->
+    <x:String x:Key="Agents.Empty.Message">No agents found</x:String>
+    <x:String x:Key="Agents.Empty.ScanNetwork">Scan network</x:String>
+    <x:String x:Key="Agents.Empty.AddManual">Add manually</x:String>
+
+    <!-- Details -->
+    <x:String x:Key="Agents.Details.DeviceId">DeviceId</x:String>
+    <x:String x:Key="Agents.Details.Hostname">Hostname</x:String>
+    <x:String x:Key="Agents.Details.IPs">IPs</x:String>
+    <x:String x:Key="Agents.Details.Tags">Tags</x:String>
+    <x:String x:Key="Agents.Details.Fingerprint">Fingerprint</x:String>
+    <x:String x:Key="Agents.Details.TrustStatus">Trust Status</x:String>
+    <x:String x:Key="Agents.Details.Cert">Cert</x:String>
+    <x:String x:Key="Agents.Details.Subject">Subject</x:String>
+    <x:String x:Key="Agents.Details.NotBefore">Not Before</x:String>
+    <x:String x:Key="Agents.Details.NotAfter">Not After</x:String>
+    <x:String x:Key="Agents.Details.SAN">SAN</x:String>
+    <x:String x:Key="Agents.Details.Uptime">Uptime</x:String>
+    <x:String x:Key="Agents.Details.Version">Version</x:String>
+    <x:String x:Key="Agents.Details.LastErrors">Last Errors</x:String>
+    <x:String x:Key="Agents.Details.TrustBtn">Trust</x:String>
+    <x:String x:Key="Agents.Details.RejectBtn">Reject</x:String>
+    <x:String x:Key="Agents.Details.QuarantineBtn">Quarantine</x:String>
+    <x:String x:Key="Agents.Details.RenameBtn">Rename</x:String>
+    <x:String x:Key="Agents.Details.AssignTagsBtn">Assign Tags</x:String>
+    <x:String x:Key="Agents.Details.RestartBtn">Restart Agent</x:String>
+    <x:String x:Key="Agents.Details.CloseBtn">Close</x:String>
+</ResourceDictionary>
