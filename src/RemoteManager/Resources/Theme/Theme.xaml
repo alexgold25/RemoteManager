@@ -13,7 +13,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Success}" />
     </Style>
 
-    <Style x:Key="GhostButton" TargetType="Button">
+    <Style x:Key="GhostButton" TargetType="{x:Type ButtonBase}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource Brush.Foreground}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.Foreground}" />
