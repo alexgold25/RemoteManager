@@ -6,11 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Security.Cryptography.X509Certificates;
-using RM.Shared;
+using RM.Shared.Security;
 using RMAgent; // DiscoveryWorker
 using RMAgent.Services;
 using Serilog;
+
+var deviceId = DeviceIdentity.EnsureDeviceId(Path.Combine(AppContext.BaseDirectory, "device.id"));
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((ctx, cfg) =>
@@ -36,7 +37,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         webBuilder.ConfigureKestrel((ctx, options) =>
         {
             IConfiguration cfg = ctx.Configuration;
-            X509Certificate2 cert = DevCertLoader.Load(cfg);
+            var cert = CertManager.EnsureServerCertificate(cfg, "Agent");
+            Log.Information("TLS cert fingerprint: {fp}", FingerprintUtil.Sha256Hex(cert));
             IPAddress ip = IPAddress.Parse(cfg["Network:BindIp"]!);
             int port = cfg.GetValue<int>("Network:Port");
             options.Listen(ip, port, o =>
@@ -70,6 +72,7 @@ IConfiguration cfg = host.Services.GetRequiredService<IConfiguration>();
 ILogger<Program> logger = host.Services.GetRequiredService<ILogger<Program>>();
 string? ip = cfg["Network:BindIp"];
 int port = cfg.GetValue<int>("Network:Port");
+logger.LogInformation("DeviceId {deviceId}", deviceId);
 logger.LogInformation("Listening on {ip}:{port} (h2)", ip, port);
 if (cfg.GetValue<bool>("Network:EnableUdpQuic"))
 {
