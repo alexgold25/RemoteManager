@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RM.Shared;
 using RM.Shared.Security;
 using RM.Proto;
 
@@ -22,7 +23,7 @@ public class DiscoveryWorker : BackgroundService
         _socket = socket;
         _logger = logger;
         _config = config;
-        _deviceId = DeviceIdentity.EnsureDeviceId(Path.Combine(AppContext.BaseDirectory, "device.id"));
+        _deviceId = DeviceIdentity.EnsureDeviceId(System.IO.Path.Combine(AppContext.BaseDirectory, "device.id"));
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,7 +35,7 @@ public class DiscoveryWorker : BackgroundService
         var bytes = DiscoverySerializer.Serialize(hello, psk);
         await _socket.SendAsync(bytes, new IPEndPoint(IPAddress.Broadcast, port), stoppingToken);
 
-        await foreach (var (ep, data) in _socket.ReceiveAsync(stoppingToken))
+        await foreach ((IPEndPoint ep, byte[] data) in _socket.ReceiveAsync(stoppingToken))
         {
             if (!DiscoverySerializer.TryDeserialize(data, psk, out var msg))
                 continue;
