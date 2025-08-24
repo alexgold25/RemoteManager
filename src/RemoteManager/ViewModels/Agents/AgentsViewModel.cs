@@ -45,6 +45,46 @@ public partial class AgentsViewModel : ObservableObject
         View = CollectionViewSource.GetDefaultView(Items);
         View.Filter = Filter;
         Seed();
+
+        OpenDetailsCmd = new AsyncRelayCommand<object?>(async o =>
+        {
+            if (o is not AgentItemVm vm) return;
+            SelectedItem = vm;
+            IsDetailsOpen = true;
+            await Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        TrustCmd = new AsyncRelayCommand<object?>(o =>
+        {
+            if (o is not AgentItemVm) return Task.CompletedTask;
+            return Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        RejectCmd = new AsyncRelayCommand<object?>(o =>
+        {
+            if (o is not AgentItemVm) return Task.CompletedTask;
+            return Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        OpenFilesCmd = new AsyncRelayCommand<object?>(o =>
+        {
+            if (o is not AgentItemVm) return Task.CompletedTask;
+            return Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        OpenTerminalCmd = new AsyncRelayCommand<object?>(o =>
+        {
+            if (o is not AgentItemVm) return Task.CompletedTask;
+            return Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        RestartCmd = new AsyncRelayCommand<object?>(o =>
+        {
+            if (o is not AgentItemVm) return Task.CompletedTask;
+            return Task.CompletedTask;
+        }, o => o is AgentItemVm);
+
+        CloseDetailsCmd = new RelayCommand(() => IsDetailsOpen = false);
     }
 
     private void Seed()
@@ -91,18 +131,11 @@ public partial class AgentsViewModel : ObservableObject
         View.Refresh();
     }
 
-    public IAsyncRelayCommand<AgentItemVm> OpenDetailsCmd => new AsyncRelayCommand<AgentItemVm>(async agent =>
-    {
-        SelectedItem = agent;
-        IsDetailsOpen = true;
-        await Task.CompletedTask;
-    });
-
-    public IAsyncRelayCommand<AgentItemVm> TrustCmd => new AsyncRelayCommand<AgentItemVm>(_ => Task.CompletedTask);
-    public IAsyncRelayCommand<AgentItemVm> RejectCmd => new AsyncRelayCommand<AgentItemVm>(_ => Task.CompletedTask);
-    public IAsyncRelayCommand<AgentItemVm> OpenFilesCmd => new AsyncRelayCommand<AgentItemVm>(_ => Task.CompletedTask);
-    public IAsyncRelayCommand<AgentItemVm> OpenTerminalCmd => new AsyncRelayCommand<AgentItemVm>(_ => Task.CompletedTask);
-    public IAsyncRelayCommand<AgentItemVm> RestartCmd => new AsyncRelayCommand<AgentItemVm>(_ => Task.CompletedTask);
-
-    public IRelayCommand CloseDetailsCmd => new RelayCommand(() => IsDetailsOpen = false);
+    public IAsyncRelayCommand OpenDetailsCmd { get; }
+    public IAsyncRelayCommand TrustCmd { get; }
+    public IAsyncRelayCommand RejectCmd { get; }
+    public IAsyncRelayCommand OpenFilesCmd { get; }
+    public IAsyncRelayCommand OpenTerminalCmd { get; }
+    public IAsyncRelayCommand RestartCmd { get; }
+    public IRelayCommand CloseDetailsCmd { get; }
 }
