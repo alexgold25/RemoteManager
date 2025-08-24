@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="Badge.Base" TargetType="Border">
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="Background" Value="{DynamicResource Brush.Foreground}" />
+    </Style>
+
+    <Style x:Key="Badge.Online" TargetType="Border" BasedOn="{StaticResource Badge.Base}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Success}" />
+    </Style>
+    <Style x:Key="Badge.Pending" TargetType="Border" BasedOn="{StaticResource Badge.Base}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Warning}" />
+    </Style>
+    <Style x:Key="Badge.Quarantine" TargetType="Border" BasedOn="{StaticResource Badge.Base}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Danger}" />
+    </Style>
+    <Style x:Key="Badge.Offline" TargetType="Border" BasedOn="{StaticResource Badge.Base}">
+        <Setter Property="Background" Value="{DynamicResource Brush.Foreground}" />
+    </Style>
+</ResourceDictionary>
