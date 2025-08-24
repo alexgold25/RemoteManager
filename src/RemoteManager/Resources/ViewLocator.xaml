@@ -1,0 +1,19 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="clr-namespace:RemoteManager.Views"
+                    xmlns:viewsAgents="clr-namespace:RemoteManager.Views.Agents"
+                    xmlns:vm="clr-namespace:RemoteManager.ViewModels"
+                    xmlns:vmAgents="clr-namespace:RemoteManager.ViewModels.Agents">
+    <DataTemplate DataType="{x:Type vmAgents:AgentsViewModel}">
+        <viewsAgents:AgentsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:InboxViewModel}">
+        <views:InboxView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:CommanderViewModel}">
+        <views:CommanderView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+        <views:SettingsView />
+    </DataTemplate>
+</ResourceDictionary>

@@ -33,6 +33,28 @@
     <x:String x:Key="Agents.Search.Placeholder">Search agents...</x:String>
     <x:String x:Key="Icon.Search">&#xE721;</x:String>
 
+    <!-- Navigation -->
+    <x:String x:Key="Nav.Agents">Agents</x:String>
+    <x:String x:Key="Nav.Inbox">Inbox</x:String>
+    <x:String x:Key="Nav.Commander">Commander</x:String>
+    <x:String x:Key="Nav.Settings">Settings</x:String>
+    <x:String x:Key="Nav.ScanNetwork">Scan network</x:String>
+
+    <!-- Icons -->
+    <x:String x:Key="Icon.Agents">&#xE716;</x:String>
+    <x:String x:Key="Icon.Inbox">&#xE8BD;</x:String>
+    <x:String x:Key="Icon.Commander">&#xE756;</x:String>
+    <x:String x:Key="Icon.Settings">&#xE713;</x:String>
+
+    <!-- Banner -->
+    <x:String x:Key="Banner.InboxFound">Found new devices: {0} — View</x:String>
+
+    <!-- Status bar -->
+    <x:String x:Key="StatusBar.Online">Online</x:String>
+    <x:String x:Key="StatusBar.Offline">Offline</x:String>
+    <x:String x:Key="StatusBar.Pending">Pending</x:String>
+    <x:String x:Key="StatusBar.LastContact">Last contact</x:String>
+
     <!-- Empty state -->
     <x:String x:Key="Agents.Empty.Message">No agents found</x:String>
     <x:String x:Key="Agents.Empty.ScanNetwork">Scan network</x:String>

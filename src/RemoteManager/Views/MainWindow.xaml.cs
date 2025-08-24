@@ -1,13 +1,14 @@
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using RemoteManager.ViewModels;
 
 namespace RemoteManager.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow(ShellViewModel vm)
+    public MainWindow()
     {
         InitializeComponent();
-        DataContext = vm;
+        DataContext = ((App)Application.Current).Host.Services.GetRequiredService<MainWindowViewModel>();
     }
 }
