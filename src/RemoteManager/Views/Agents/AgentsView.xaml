@@ -46,7 +46,9 @@
                 </StackPanel>
             </StackPanel>
             <Grid>
-                <DataGrid ItemsSource="{Binding View}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                <DataGrid x:Name="AgentsGrid"
+                          ItemsSource="{Binding View}"
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                           AutoGenerateColumns="False" SelectionMode="Single"
                           EnableRowVirtualization="True" EnableColumnVirtualization="True"
                           VirtualizingPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True">
@@ -96,16 +98,34 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="{DynamicResource Agents.Action.OpenDetails}" Command="{Binding DataContext.OpenDetailsCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                            <MenuItem Header="{DynamicResource Agents.Action.Trust}" Command="{Binding DataContext.TrustCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                            <MenuItem Header="{DynamicResource Agents.Action.Reject}" Command="{Binding DataContext.RejectCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                            <MenuItem Header="{DynamicResource Agents.Action.Files}" Command="{Binding DataContext.OpenFilesCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                            <MenuItem Header="{DynamicResource Agents.Action.Terminal}" Command="{Binding DataContext.OpenTerminalCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                            <MenuItem Header="{DynamicResource Agents.Action.Restart}" Command="{Binding DataContext.RestartCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="{DynamicResource Agents.Action.OpenDetails}"
+                                                  Command="{Binding DataContext.OpenDetailsCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <MenuItem Header="{DynamicResource Agents.Action.Trust}"
+                                                  Command="{Binding DataContext.TrustCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <MenuItem Header="{DynamicResource Agents.Action.Reject}"
+                                                  Command="{Binding DataContext.RejectCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <MenuItem Header="{DynamicResource Agents.Action.Files}"
+                                                  Command="{Binding DataContext.OpenFilesCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <MenuItem Header="{DynamicResource Agents.Action.Terminal}"
+                                                  Command="{Binding DataContext.OpenTerminalCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                        <MenuItem Header="{DynamicResource Agents.Action.Restart}"
+                                                  Command="{Binding DataContext.RestartCmd, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.RowStyle>
                 </DataGrid>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"
                             Visibility="{Binding View.IsEmpty, Converter={StaticResource BoolToVis}}">
