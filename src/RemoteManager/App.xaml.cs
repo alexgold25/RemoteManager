@@ -29,6 +29,7 @@ namespace RemoteManager
                 {
                     string endpoint = ctx.Configuration.GetValue<string>("Client:DefaultAgentEndpoint")!;
                     services.AddSingleton<IDiscoveryService, DiscoveryService>();
+                    services.AddSingleton<RemoteManager.Security.TrustedAgentsStore>();
                     services.AddSingleton<IAgentRegistry, AgentRegistry>();
                     services.AddSingleton<IGrpcConnectionFactory, GrpcConnectionFactory>();
                     services.AddSingleton<ISystemClient>(sp => new SystemClient(sp.GetRequiredService<IGrpcConnectionFactory>().Create(endpoint)));
