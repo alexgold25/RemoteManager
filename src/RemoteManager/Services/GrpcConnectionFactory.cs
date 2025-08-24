@@ -21,17 +21,35 @@ public class GrpcConnectionFactory : IGrpcConnectionFactory
 
     public GrpcChannel Create(string address)
     {
+        var modeStr = _cfg.GetValue<string>("Security:PinningRequired") ?? "Off";
+        Enum.TryParse<PinningMode>(modeStr, true, out var mode);
+
         var handler = new HttpClientHandler();
         handler.ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) =>
         {
             if (cert == null) return false;
             string fp = Fingerprint.ComputeSha256(cert);
-            if (_store.ContainsFingerprint(fp)) return true;
-            return !_cfg.GetValue<bool>("Security:PinningRequired");
+            bool known = _store.ContainsFingerprint(fp);
+            return mode switch
+            {
+                PinningMode.Strict => known,
+                PinningMode.Relaxed => true,
+                _ => true
+            };
         };
-        var httpClient = new HttpClient(handler);
-        httpClient.DefaultRequestVersion = new Version(2, 0);
-        httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
+
+        var httpClient = new HttpClient(handler)
+        {
+            DefaultRequestVersion = new Version(2, 0),
+            DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower
+        };
         return GrpcChannel.ForAddress(address, new GrpcChannelOptions { HttpClient = httpClient });
     }
+}
+
+public enum PinningMode
+{
+    Off,
+    Relaxed,
+    Strict
 }
