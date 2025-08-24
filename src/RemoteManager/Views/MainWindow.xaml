@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:RemoteManager.ViewModels"
+        xmlns:vm="clr-namespace:RemoteManager.ViewModels;assembly=RemoteManager"
         mc:Ignorable="d"
         Title="RemoteManager" Height="450" Width="800">
     <Grid>
@@ -30,9 +30,9 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets" Margin="0,0,8,0"/>
                                 <TextBlock Text="{Binding Title}"/>
-                                <Border Style="{DynamicResource Badge.Pending}" Margin="8,0,0,0">
+                                <Border Margin="8,0,0,0">
                                     <Border.Style>
-                                        <Style TargetType="Border">
+                                        <Style TargetType="Border" BasedOn="{StaticResource Badge.Pending}">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding BadgeCount}" Value="{x:Null}">
